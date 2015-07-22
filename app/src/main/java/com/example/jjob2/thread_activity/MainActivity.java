@@ -50,12 +50,12 @@ public class MainActivity extends ActionBarActivity {
         t1.start();
 
         try {
-           // t1.join();
+            //t1.join();
             ListView myListView = (ListView) findViewById(R.id.listView);
             ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mainList);
             myListView.setAdapter(myAdapter);
         } catch (Exception e) {
-            Log.e("jj","Failure in readFile");;
+            e.printStackTrace();
         }
     }
 
@@ -63,11 +63,12 @@ public class MainActivity extends ActionBarActivity {
     {
         Log.i("jj","In the clearFile function");
         ListView myListView = (ListView)findViewById(R.id.listView);
-        ArrayList<String> myList = new ArrayList<String> ( ) ;
 
         String line = "";
 
-        ArrayAdapter<String> myAdapter = new ArrayAdapter<String> (this, android.R.layout.simple_list_item_1, myList);
+        mainList.clear();
+
+        ArrayAdapter<String> myAdapter = new ArrayAdapter<String> (this, android.R.layout.simple_list_item_1, mainList);
         myListView.setAdapter(myAdapter);
 
     }
