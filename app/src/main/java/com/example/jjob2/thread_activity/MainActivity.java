@@ -1,6 +1,5 @@
 package com.example.jjob2.thread_activity;
 
-import android.content.Context;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,14 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +19,6 @@ public class MainActivity extends ActionBarActivity {
 
     public static ProgressBar progressbar;
     public static File fileDir;
-    public static Context mainContext;
     public static List mainList;
 
     @Override
@@ -36,9 +27,7 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //testing
         fileDir = this.getFilesDir();
-        mainContext = this;
         mainList = new ArrayList<String> ( ) ;
 
         progressbar = (ProgressBar) findViewById(R.id.progressBar);
@@ -51,7 +40,6 @@ public class MainActivity extends ActionBarActivity {
         Thread t2 = new Thread(writefile);
 
         t2.start();
-
     }
 
     public void readFile(View myView)
@@ -67,7 +55,7 @@ public class MainActivity extends ActionBarActivity {
             ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mainList);
             myListView.setAdapter(myAdapter);
         } catch (Exception e) {
-            ;
+            Log.e("jj","Failure in readFile");;
         }
     }
 
@@ -81,6 +69,7 @@ public class MainActivity extends ActionBarActivity {
 
         ArrayAdapter<String> myAdapter = new ArrayAdapter<String> (this, android.R.layout.simple_list_item_1, myList);
         myListView.setAdapter(myAdapter);
+
     }
 
     @Override

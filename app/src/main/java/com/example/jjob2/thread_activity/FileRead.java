@@ -1,15 +1,9 @@
 package com.example.jjob2.thread_activity;
 
 import android.util.Log;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
 
 /**
  * Created by jjob2 on 7/21/2015.
