@@ -1,5 +1,6 @@
 package com.example.jjob2.thread_activity;
 
+import android.content.Context;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,148 +20,58 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class MainActivity extends ActionBarActivity {
 
-    public ProgressBar progressbar;// = (ProgressBar) findViewById(R.id.progressBar);
+    public static ProgressBar progressbar;
+    public static File fileDir;
+    public static Context mainContext;
+    public static List mainList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.i("jj", "In the onCreate function");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Log.i("jj", "In the onCreate function");
+        //testing
+        fileDir = this.getFilesDir();
+        mainContext = this;
+        mainList = new ArrayList<String> ( ) ;
 
-        //Testing added this for the background thread
-       // ProgressBar progressbar = (ProgressBar) findViewById(R.id.progressBar);
         progressbar = (ProgressBar) findViewById(R.id.progressBar);
         progressbar.setMax(100);
-
-//        createFile();
     }
 
-    //Added, testing
     public void createFile(View myView) {
-        Log.i("jj","In the createFile function");
-       // System.out.println("Testing the button");
 
-        try {
-            // Testing
-           // URL url1 = new URL("https://developer.android.com/training/multiple-threads/communicate-ui.html");
+        fileWrite writefile = new fileWrite();
+        Thread t2 = new Thread(writefile);
 
+        t2.start();
 
-            //END-TEST
-            //testing again
-            //BackgroundThread myT = new BackgroundThread();
-            //myT.doInForeground();
-
-            //
-            String nums = "";// = "1 2 3 4 5 6 7 8 9 10";
-            File myFile = new File(this.getFilesDir(), "myFile.txt");
-
-            FileWriter myWriter = new FileWriter(myFile.getAbsoluteFile());
-            BufferedWriter myBWriter = new BufferedWriter(myWriter);
-
-           // ProgressBar progressbar = (ProgressBar) findViewById(R.id.progressBar);
-
-            //
-            progressbar.setProgress(0);
-            myBWriter.write(nums);
-            for (int i = 0; i < 10; i++) {
-                myBWriter.write("" + (i + 1) + "\n");
-                Thread.sleep(250);
-                progressbar.setProgress(i*10);
-
-            }
-            myBWriter.close();
-
-        } catch (IOException e) {                  // This exception needed for the Writer?
-            Log.e("jj","Failure to write to the file?");
-            e.printStackTrace();
-        } catch (InterruptedException e) {        // This exception is needed for Thread.sleep()
-            Log.e("jj", "Failure to perform the Thread.sleep() function?");
-            e.printStackTrace();
-        }
     }
 
-    public void readFile(View myView)  //added Wednesday
+    public void readFile(View myView)
     {
-        /*
+        FileRead readfile = new FileRead();
+        Thread t1 = new Thread(readfile);
+
+        t1.start();
+
         try {
-            File myFile = new File(this.getFilesDir(), "myFile.txt");
-
-            FileReader myReader = new FileReader(myFile.getAbsoluteFile());
-            BufferedReader myBReader = new BufferedReader(myReader);
-
-//            myBWriter.write(nums);
-
-            char[] words = new char[256];
-            for (int i = 0; i < 10; i++) {
-                myBReader.read(words);
-                Thread.sleep(250);
-            }
-            myBReader.close();
-
-            String sNumbers = words;
-            Log.i("jj",words[0]);
-
-        } catch (Exception e) {
-            Log.e("jj","Failure to read the file");
-        }
-        */
-
-        progressbar.setProgress(0);
-        Log.i("jj","In the readFile function");
-        try {
-            ;
-           // BackgroundThread myThread = new BackgroundThread();
-            //myThread.doInBackground("test1");
-//            myThread.doInForeground();
-      //  } catch (Exception e) {
-       //     Log.e("jj","Failure to read the file?");
-        //}
-            //myThread.doInBackground("hi there");
-
-
-            ListView myListView = (ListView)findViewById(R.id.listView); //added wednesday
-            ArrayList<String> myList = new ArrayList<String> ( ) ;
-
-
-            //TEST-ADDED
-            String fileName = this.getFilesDir() + "/myFile.txt";
-            BufferedReader reader = new BufferedReader(new FileReader(fileName));
-            String line;
-
-
-            int i = 0;
-            while ((line = reader.readLine()) != null) {
-                System.out.println(line);
-                myList.add(line);  //testing (wednes)
-                progressbar.setProgress(i * 10);
-                Thread.sleep(250);  // added today
-                i++;
-            }
-            progressbar.setProgress(50);
-
-            ArrayAdapter<String> myAdapter = new ArrayAdapter<String> (this, android.R.layout.simple_list_item_1, myList); // testing - added wednes
+           // t1.join();
+            ListView myListView = (ListView) findViewById(R.id.listView);
+            ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mainList);
             myListView.setAdapter(myAdapter);
-
-            reader.close();
-            //END-TEST-ADD
-
-        } catch (FileNotFoundException e) {
-            Log.e("jj","Error reading the file");
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {   // This was added for the Thread.sleep function?
-            Log.e("jj","Thread sleep failed?");
-            e.printStackTrace();
+        } catch (Exception e) {
+            ;
         }
     }
 
-    public void clearFile(View myView)  // Added Thursday
+    public void clearFile(View myView)
     {
         Log.i("jj","In the clearFile function");
         ListView myListView = (ListView)findViewById(R.id.listView);
@@ -168,7 +79,7 @@ public class MainActivity extends ActionBarActivity {
 
         String line = "";
 
-        ArrayAdapter<String> myAdapter = new ArrayAdapter<String> (this, android.R.layout.simple_list_item_1, myList); // testing - added wednes
+        ArrayAdapter<String> myAdapter = new ArrayAdapter<String> (this, android.R.layout.simple_list_item_1, myList);
         myListView.setAdapter(myAdapter);
     }
 
