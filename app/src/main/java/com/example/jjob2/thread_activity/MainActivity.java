@@ -23,6 +23,8 @@ import java.util.ArrayList;
 
 public class MainActivity extends ActionBarActivity {
 
+    public ProgressBar progressbar;// = (ProgressBar) findViewById(R.id.progressBar);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,16 +33,17 @@ public class MainActivity extends ActionBarActivity {
         Log.i("jj", "In the onCreate function");
 
         //Testing added this for the background thread
-        ProgressBar progressbar = (ProgressBar) findViewById(R.id.progressBar);
+       // ProgressBar progressbar = (ProgressBar) findViewById(R.id.progressBar);
+        progressbar = (ProgressBar) findViewById(R.id.progressBar);
         progressbar.setMax(100);
 
-        createFile();
+//        createFile();
     }
 
     //Added, testing
-    public void createFile() {
+    public void createFile(View myView) {
         Log.i("jj","In the createFile function");
-        System.out.println("Testing the button");
+       // System.out.println("Testing the button");
 
         try {
             // Testing
@@ -49,20 +52,26 @@ public class MainActivity extends ActionBarActivity {
 
             //END-TEST
             //testing again
-            BackgroundThread myT = new BackgroundThread();
-            myT.doInForeground();
+            //BackgroundThread myT = new BackgroundThread();
+            //myT.doInForeground();
 
-            String nums;
-            //= "1 2 3 4 5 6 7 8 9 10";
+            //
+            String nums = "";// = "1 2 3 4 5 6 7 8 9 10";
             File myFile = new File(this.getFilesDir(), "myFile.txt");
 
             FileWriter myWriter = new FileWriter(myFile.getAbsoluteFile());
             BufferedWriter myBWriter = new BufferedWriter(myWriter);
 
-//            myBWriter.write(nums);
+           // ProgressBar progressbar = (ProgressBar) findViewById(R.id.progressBar);
+
+            //
+            progressbar.setProgress(0);
+            myBWriter.write(nums);
             for (int i = 0; i < 10; i++) {
                 myBWriter.write("" + (i + 1) + "\n");
                 Thread.sleep(250);
+                progressbar.setProgress(i*10);
+
             }
             myBWriter.close();
 
@@ -101,17 +110,19 @@ public class MainActivity extends ActionBarActivity {
         }
         */
 
+        progressbar.setProgress(0);
         Log.i("jj","In the readFile function");
         try {
-            BackgroundThread myThread = new BackgroundThread();
-            myThread.doInBackground("test1");
+            ;
+           // BackgroundThread myThread = new BackgroundThread();
+            //myThread.doInBackground("test1");
 //            myThread.doInForeground();
-        } catch (Exception e) {
-            Log.e("jj","Failure to read the file?");
-        }
+      //  } catch (Exception e) {
+       //     Log.e("jj","Failure to read the file?");
+        //}
             //myThread.doInBackground("hi there");
 
-/*
+
             ListView myListView = (ListView)findViewById(R.id.listView); //added wednesday
             ArrayList<String> myList = new ArrayList<String> ( ) ;
 
@@ -121,11 +132,16 @@ public class MainActivity extends ActionBarActivity {
             BufferedReader reader = new BufferedReader(new FileReader(fileName));
             String line;
 
+
+            int i = 0;
             while ((line = reader.readLine()) != null) {
                 System.out.println(line);
                 myList.add(line);  //testing (wednes)
+                progressbar.setProgress(i * 10);
                 Thread.sleep(250);  // added today
+                i++;
             }
+            progressbar.setProgress(50);
 
             ArrayAdapter<String> myAdapter = new ArrayAdapter<String> (this, android.R.layout.simple_list_item_1, myList); // testing - added wednes
             myListView.setAdapter(myAdapter);
@@ -134,12 +150,14 @@ public class MainActivity extends ActionBarActivity {
             //END-TEST-ADD
 
         } catch (FileNotFoundException e) {
+            Log.e("jj","Error reading the file");
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {   // This was added for the Thread.sleep function?
+            Log.e("jj","Thread sleep failed?");
             e.printStackTrace();
-        }*/
+        }
     }
 
     public void clearFile(View myView)  // Added Thursday

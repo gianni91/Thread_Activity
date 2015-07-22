@@ -9,6 +9,7 @@ import java.net.URL;
 /**
  * Created by jjob2 on 7/2/2015.
  */
+/*
 public class BackgroundThread extends AsyncTask<String, Integer, String>
 {
 
@@ -43,6 +44,7 @@ public class BackgroundThread extends AsyncTask<String, Integer, String>
     }
 
 }
+*/
 /*
 public class BackgroundThread extends AsyncTask<URL , Integer, Long> {
    //protected Long doInBackground(URL... urls) {
